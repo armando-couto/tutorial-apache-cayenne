@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-map xmlns="http://cayenne.apache.org/schema/3.0/modelMap"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://cayenne.apache.org/schema/3.0/modelMap http://cayenne.apache.org/schema/3.0/modelMap.xsd"
+  project-version="3.0.0.1">
+	<property name="defaultPackage" value="br.jus.tjce.cayenne.TutorialCayenne.persistence"/>
+	<db-entity name="Artista" schema="cayenne">
+		<db-attribute name="data_de_nascimento" type="DATE"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isGenerated="true" isMandatory="true"/>
+		<db-attribute name="nome" type="VARCHAR" length="200"/>
+	</db-entity>
+	<db-entity name="Galeria" schema="cayenne">
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isGenerated="true" isMandatory="true"/>
+		<db-attribute name="nome" type="VARCHAR" length="200"/>
+	</db-entity>
+	<db-entity name="Pintura" schema="cayenne">
+		<db-attribute name="fk_artista" type="INTEGER"/>
+		<db-attribute name="fk_galeria" type="INTEGER"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isGenerated="true" isMandatory="true"/>
+		<db-attribute name="nome" type="VARCHAR" length="200"/>
+	</db-entity>
+	<obj-entity name="Artista" className="br.jus.tjce.cayenne.TutorialCayenne.persistence.Artista" dbEntityName="Artista">
+		<obj-attribute name="dataDeNascimento" type="java.util.Date" db-attribute-path="data_de_nascimento"/>
+		<obj-attribute name="nome" type="java.lang.String" db-attribute-path="nome"/>
+	</obj-entity>
+	<obj-entity name="Galeria" className="br.jus.tjce.cayenne.TutorialCayenne.persistence.Galeria" dbEntityName="Galeria">
+		<obj-attribute name="nome" type="java.lang.String" db-attribute-path="nome"/>
+	</obj-entity>
+	<obj-entity name="Pintura" className="br.jus.tjce.cayenne.TutorialCayenne.persistence.Pintura" dbEntityName="Pintura">
+		<obj-attribute name="nome" type="java.lang.String" db-attribute-path="nome"/>
+	</obj-entity>
+	<db-relationship name="relacao_pintura" source="Artista" target="Pintura" toMany="true">
+		<db-attribute-pair source="id" target="fk_artista"/>
+	</db-relationship>
+	<db-relationship name="relacao_pintura" source="Galeria" target="Pintura" toMany="true">
+		<db-attribute-pair source="id" target="fk_galeria"/>
+	</db-relationship>
+	<db-relationship name="relacao_artista" source="Pintura" target="Artista" toMany="false">
+		<db-attribute-pair source="fk_artista" target="id"/>
+	</db-relationship>
+	<db-relationship name="relacao_galeria" source="Pintura" target="Galeria" toMany="false">
+		<db-attribute-pair source="fk_galeria" target="id"/>
+	</db-relationship>
+	<obj-relationship name="relacaoPintura" source="Artista" target="Pintura" deleteRule="Deny" db-relationship-path="relacao_pintura"/>
+	<obj-relationship name="relacaoPintura" source="Galeria" target="Pintura" deleteRule="Deny" db-relationship-path="relacao_pintura"/>
+	<obj-relationship name="relacaoArtista" source="Pintura" target="Artista" deleteRule="Nullify" db-relationship-path="relacao_artista"/>
+	<obj-relationship name="relacaoGaleria" source="Pintura" target="Galeria" deleteRule="Nullify" db-relationship-path="relacao_galeria"/>
+</data-map>

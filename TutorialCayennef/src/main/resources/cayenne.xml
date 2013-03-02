@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<domains project-version="3.0.0.1">
+<domain name="TutorialCayenne">
+	<map name="TutorialCayenneMap" location="TutorialCayenneMap.map.xml"/>
+
+	<node name="TutorialCayenneNode"
+		 datasource="TutorialCayenneNode.driver.xml"
+		 factory="org.apache.cayenne.conf.DriverDataSourceFactory">
+			<map-ref name="TutorialCayenneMap"/>
+	 </node>
+</domain>
+</domains>
